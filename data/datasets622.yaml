@@ -5,9 +5,9 @@
 
 # train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
 # train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
-train: ./datasets/images/train/ # 2122 images
-val: ./datasets/images/val/  # 707 images
-test: ./datasets/images/test/   #709 images
+train: /content/yolo_crack/datasets/images/train/ # 2122 images
+val: /content/yolo_crack/datasets/images/val/  # 707 images
+test: /content/yolo_crack/datasets/images/test/   #709 images
 
 # number of classes
 nc: 1
