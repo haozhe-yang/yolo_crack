@@ -1,0 +1,15 @@
+# COCO 2017 dataset http://cocodataset.org
+
+# download command/URL (optional)
+#download: bash ./scripts/get_coco.sh
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: ./crack-pics/images/train/ # 16551 images
+val: ./crack-pics/images/val/  # 4952 images
+
+# number of classes
+nc: 3
+
+# class names
+names: [ 'toe_crack', 'heel_crack', 'other']
