@@ -1,4 +1,3 @@
-
 import argparse
 import logging
 import math
@@ -532,7 +531,7 @@ def train(hyp, opt, device, tb_writer=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', type=str, default='yolov7-tiny.pt', help='initial weights path')
-    parser.add_argument('--cfg', type=str, default='cfg/training/crack_tiny_mn.yaml', help='model.yaml path')
+    parser.add_argument('--cfg', type=str, default='cfg/training/tiny_CBAM.yaml', help='model.yaml path')
     parser.add_argument('--data', type=str, default='data/datasets622.yaml', help='data.yaml path')
     parser.add_argument('--hyp', type=str, default='data/hyp.scratch.tiny.yaml', help='hyperparameters path')
     parser.add_argument('--epochs', type=int, default=300)
@@ -556,7 +555,7 @@ if __name__ == '__main__':
     parser.add_argument('--workers', type=int, default=8, help='maximum number of dataloader workers')
     parser.add_argument('--project', default='runs/train', help='save to project/name')
     parser.add_argument('--entity', default=None, help='W&B entity')
-    parser.add_argument('--name', default='datasets622_tiny_mn', help='save to project/name')
+    parser.add_argument('--name', default='tiny_CBAM', help='save to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--quad', action='store_true', help='quad dataloader')
     parser.add_argument('--linear-lr', action='store_true', help='linear LR')

@@ -12,18 +12,17 @@ anchors:
 # yolov7-tiny backbone
 backbone:
   # [from, number, module, args] c2, k=1, s=1, p=None, g=1, act=True
-  # [[-1, 1, Conv, [32, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 0-P1/2
-  [[-1, 1, CBAM, [32, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 0-P1/2
-
-   # [-1, 1, Conv, [64, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 1-P2/4
-   [-1, 1, CBAM, [64, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 1-P2/4
-
+  [[-1, 1, Conv, [32, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 0-P1/2  
+  
+   [-1, 1, Conv, [64, 3, 2, None, 1, nn.LeakyReLU(0.1)]],  # 1-P2/4    
+   
    [-1, 1, Conv, [32, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-2, 1, Conv, [32, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [32, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [32, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 7
+   [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  #7
+
    
    [-1, 1, MP, []],  # 8-P3/8
    [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
@@ -32,39 +31,43 @@ backbone:
    [-1, 1, Conv, [64, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
    [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 14
+   [-1, 1, CBAM, [128]],  #15 Attention
    
-   [-1, 1, MP, []],  # 15-P4/16
+   [-1, 1, MP, []],  # 16-P4/16
    [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-2, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 21
+   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 22
+   [-1, 1, CBAM, [256]], #23 Attention
    
-   [-1, 1, MP, []],  # 22-P5/32
+   [-1, 1, MP, []],  # 24-P5/32
    [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-2, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [256, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [256, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [512, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 28
+   [-1, 1, Conv, [512, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 30
+   [-1, 1, CBAM, [512]], #31 Attention
   ]
 
 # yolov7-tiny head
 head:
-  [[-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
+  [[-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]], #32 SimSPPFCSPC
    [-2, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, SP, [5]],
-   [-2, 1, SP, [9]],
-   [-3, 1, SP, [13]],
+   [-1, 1, SP, [9]],
+   [-1, 1, SP, [13]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
    [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -7], 1, Concat, [1]],
-   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 37
+   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 40
+   [-1, 1, CBAM, [256]], #41 Attention
   
    [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, nn.Upsample, [None, 2, 'nearest']],
-   [21, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]], # route backbone P4
+   [23, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]], # route backbone P4
    [[-1, -2], 1, Concat, [1]],
    
    [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
@@ -72,11 +75,11 @@ head:
    [-1, 1, Conv, [64, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [64, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 47
+   [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 51
   
    [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, nn.Upsample, [None, 2, 'nearest']],
-   [14, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]], # route backbone P3
+   [15, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]], # route backbone P3
    [[-1, -2], 1, Concat, [1]],
    
    [-1, 1, Conv, [32, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
@@ -84,31 +87,32 @@ head:
    [-1, 1, Conv, [32, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [32, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 57
+   [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 61 ->CBL
    
    [-1, 1, Conv, [128, 3, 2, None, 1, nn.LeakyReLU(0.1)]],
-   [[-1, 47], 1, Concat, [1]],
+   [[-1, 51], 1, Concat, [1]],
    
    [-1, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-2, 1, Conv, [64, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [64, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [64, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 65
+   [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 69 ->CBL
    
    [-1, 1, Conv, [256, 3, 2, None, 1, nn.LeakyReLU(0.1)]],
-   [[-1, 37], 1, Concat, [1]],
+   [[-1, 41], 1, Concat, [1]],
    
    [-1, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-2, 1, Conv, [128, 1, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [-1, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
    [[-1, -2, -3, -4], 1, Concat, [1]],
-   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 73
+   [-1, 1, Conv, [256, 1, 1, None, 1, nn.LeakyReLU(0.1)]],  # 77 ->CBL
       
-   [57, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
-   [65, 1, Conv, [256, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
-   [73, 1, Conv, [512, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
+   [61, 1, Conv, [128, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
+   [69, 1, Conv, [256, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
+   [77, 1, Conv, [512, 3, 1, None, 1, nn.LeakyReLU(0.1)]],
 
-   [[74,75,76], 1, IDetect, [nc, anchors]],   # Detect(P3, P4, P5)
+
+   [[78,79,80], 1, IDetect, [nc, anchors]],   # Detect(P3, P4, P5)
   ]
