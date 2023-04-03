@@ -4,14 +4,11 @@ depth_multiple: 1.0  # model depth multiple
 width_multiple: 1.0  # layer channel multiple
 
 # anchors
-#anchors:
-#  - [10,13, 16,30, 33,23]  # P3/8
-#  - [30,61, 62,45, 59,119]  # P4/16
-#  - [116,90, 156,198, 373,326]  # P5/32
 anchors:
-  - [ 9,16,  13,31,  18,44]  # P3/8
-  - [24,61,  32,79,  40,99]  # P4/16
-  - [ 53,129,  69,170,  113,208]  # P5/32
+  - [10,13, 16,30, 33,23]  # P3/8
+  - [30,61, 62,45, 59,119]  # P4/16
+  - [116,90, 156,198, 373,326]  # P5/32
+  -
 # yolov7-tiny backbone
 backbone:
   # [from, number, module, args] c2, k=1, s=1, p=None, g=1, act=True
